@@ -13,9 +13,6 @@ if [[ "$SPARK_ROLE" -eq "SPARK-MASTER" ]]; then
 elif [[ "$SPARK_ROLE" -eq "SPARK-WORKER" ]]; then
 	./spark-class org.apache.spark.deploy.worker.Worker spark://`hostname`:$SPARK_MASTER_PORT
 	echo "2---worker"
-else
-then
-	echo "Please select appropriate role. [SPARK-MASTER OR SPARK-WORKER]"
 fi
 
 CMD=${1:-"exit 0"}
