@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 export SPARK_MASTER_PORT=7077
 echo "xx------------1"
 # run spark 
