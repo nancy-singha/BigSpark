@@ -50,7 +50,8 @@ RUN cp -r spark-$SPARK_VERSION-bin-hadoop$HADOOP_PROFILE/* /usr/local/spark
 RUN cd /usr/local && ln -s spark-$SPARK_VERSION-bin-hadoop$HADOOP_PROFILE spark
 
 # update boot script
-COPY entrypoint.sh /
+RUN wget https://github.com/nancy-singha/BigSpark/blob/main/entrypoint.sh
+RUn cp entrypoint.sh /
 RUN chown root.root /entrypoint.sh
 RUN chmod 700 /entrypoint.sh
 
