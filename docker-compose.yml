@@ -1,0 +1,47 @@
+version: '3.3'
+services:
+  spark-master:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    image: apache/spark
+    container_name: spark-master
+    expose:
+      - "7077"
+    ports:
+      - "8090:8080"
+      - "7077:7077"
+    environment:
+      - "INIT_DAEMON_STEP=setup_spark"
+      - "SPARK_ROLE=SPARK-MASTER"
+    volumes:
+      - ./usr/local/spark:/opt/spark
+     
+  spark-worker:
+    image: apache/spark
+    container_name: spark-worker
+    depends_on:
+      - spark-master
+    ports:
+      - "8082:8082"
+    environment:
+      - "SPARK_MASTER=spark://spark-master:7077"
+      - "MASTER=spark://spark-master:7077"
+      - "SPARK_HOME=/usr/local/spark"
+      - "SPARK_ROLE=SPARK-WORKER"
+    volumes:
+      - ./url/local/spark:/opt/spark
+      
+      
+  zeppelin:
+    image: apache/zeppelin:0.10.1
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./opt/spark:/zeppelin/opt/spark
+      - ./notebooks:/zeppelin/notebook
+    environment:
+      - "MASTER=spark://spark-master:7077"
+      - "SPARK_MASTER=spark://spark-master:7077"
+      - "SPARK_HOME=/zeppelin/opt/spark"
+      - "JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk"
